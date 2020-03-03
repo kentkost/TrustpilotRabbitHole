@@ -1,0 +1,6 @@
+C:\Users\kent_\source\repos\TrustPilotRabbitHole\TrustPilotRabbitHole\obj\Debug\TrustPilotRabbitHole.csprojAssemblyReference.cache
+C:\Users\kent_\source\repos\TrustPilotRabbitHole\TrustPilotRabbitHole\bin\Debug\TrustPilotRabbitHole.exe.config
+C:\Users\kent_\source\repos\TrustPilotRabbitHole\TrustPilotRabbitHole\bin\Debug\TrustPilotRabbitHole.exe
+C:\Users\kent_\source\repos\TrustPilotRabbitHole\TrustPilotRabbitHole\bin\Debug\TrustPilotRabbitHole.pdb
+C:\Users\kent_\source\repos\TrustPilotRabbitHole\TrustPilotRabbitHole\obj\Debug\TrustPilotRabbitHole.exe
+C:\Users\kent_\source\repos\TrustPilotRabbitHole\TrustPilotRabbitHole\obj\Debug\TrustPilotRabbitHole.pdb
