@@ -38,5 +38,14 @@ namespace TrustPilotRabbitHoleTest
       bool wordExists = dawg.FindWord("airi");
       Assert.False(wordExists);
     }
+
+    [Test]
+    public void TestMD5Hash()
+    {
+      string s = "hello world";
+      string hash = dawg.MD5hash(s);
+      Assert.AreEqual("5eb63bbbe01eeed093cb22bb8f5acdc3", hash);
+    }
+
   }
 }

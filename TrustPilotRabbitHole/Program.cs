@@ -12,15 +12,14 @@ namespace TrustPilotRabbitHole
   {
     static void Main(string[] args)
     {
-      //string anagram = "poultry outwits ants";
-      string anagram = "dormitory";
+      string anagram = "poultry outwits ants";
+      //string anagram = "dormitory";
       //string anagram = "funeral";
-      //if (!File.Exists("newWords.txt"))
-      //{
-      //SortWords("wordlist.txt", anagram);
-      //}
-      //DAWG dawg = new DAWG("newWords.txt");
-      DAWG dawg = new DAWG("testAnagrams.txt");
+      if (!File.Exists("newWords.txt")) {
+        SortWords("wordlist.txt", anagram);
+      }
+      DAWG dawg = new DAWG("newWords.txt");
+      //DAWG dawg = new DAWG("testAnagrams.txt");
       //DAWG dawg = new DAWG("testAnagrams2.txt");
       dawg.FindAnagrams(anagram);
       Console.WriteLine("Done");
