@@ -19,9 +19,12 @@ namespace TrustPilotRabbitHole
         SortWords("wordlist.txt", anagram);
       }
       DAWG dawg = new DAWG("newWords.txt");
+      LetterFrequencyMatrix rankWords = new LetterFrequencyMatrix("newWords.txt", anagram);
       //DAWG dawg = new DAWG("testAnagrams.txt");
       //DAWG dawg = new DAWG("testAnagrams2.txt");
-      dawg.FindAnagrams(anagram);
+      foreach (string guess in rankWords.newWords) {
+        dawg.FindAnagrams(anagram, guess);
+      }
       Console.WriteLine("Done");
       Console.ReadKey();
     }
@@ -32,12 +35,15 @@ namespace TrustPilotRabbitHole
       using (StreamReader file = new StreamReader(path))
       {
         string ln;
-
+        string prev = "";
         while ((ln = file.ReadLine()) != null)
         {
           if (IsSubsetString(input, ln) && ln.Length > 2)
           {
-            outfile.WriteLine(ln);
+            if (prev != ln) {
+              outfile.WriteLine(ln);
+              prev = ln;
+            }
           }
         }
         file.Close();
@@ -52,28 +58,15 @@ namespace TrustPilotRabbitHole
       input = Regex.Replace(input, @"\s+", "");
       compare = Regex.Replace(compare, @"\s+", "");
 
-      //sort both words into list 
       List<char> inp = String.Concat(input.OrderBy(c => c)).ToList();
-      List<char> cmp = String.Concat(compare.OrderBy(c => c)).ToList();
 
-      int i = 0, j = 0;
-      while (j < cmp.Count)
-      {
-        //If I want special characters
-        //if (!Char.IsLetter(cmp[j]))
-        //{
-        //    j++; continue;
-        //}
-        while (inp[i] != cmp[j])
-        {
-          i++;
-          if (i > inp.Count - 1)
-          {
-            return false;
-          }
+      foreach (char c in compare) {
+        bool found = inp.Remove(c);
+        if (!found) {
+          return false;
         }
-        j++;
       }
+
       return true;
     }
   }

@@ -44,8 +44,6 @@ namespace TrustPilotRabbitHole
       MD5 md5 = MD5.Create();
       byte[] inputBytes = Encoding.ASCII.GetBytes(s);
       byte[] hash = md5.ComputeHash(inputBytes);
-
-      // step 2, convert byte array to hex string
       StringBuilder sb = new StringBuilder();
       for (int i = 0; i < hash.Length; i++) {
         sb.Append(hash[i].ToString("X2"));
@@ -53,23 +51,30 @@ namespace TrustPilotRabbitHole
       return sb.ToString().ToLower();
     }
 
+    private List<char> SubtractLetters(List<char> anagram, string guess)
+    {
+      foreach (char c in guess) {
+        anagram.Remove(c);
+      }
+      return anagram;
+    }
+
     //Add assumed words to parameter
-    public void FindAnagrams(string anagram)
+    public void FindAnagrams(string anagram, string guess)
     {
       List<char> inp = String.Concat(anagram.OrderBy(c => c)).ToList();
       inp.RemoveAll(item => item ==' ');
-
-      FindAnagram(new List<string>() { "" }, inp);
-      //foreach (string s in anagrams) {
-      //  Console.WriteLine(s);
-      //}
+      inp = SubtractLetters(inp, guess);
+      FindAnagram(new List<string>() { "" }, inp, guess);
     }
 
-    private void FindAnagram(List<string> phrase, List<char> letters)
+    private void FindAnagram(List<string> phrase, List<char> letters, string guess)
     {
       if (letters.Count == 0 && FindWord(phrase[phrase.Count - 1])) {
-        //anagrams.Add(string.Join(" ", phrase.ToArray()));
-        CheckAnagram(phrase);
+        List<string> newPhrase = new List<string>(phrase);
+        newPhrase.Add(guess);
+        CheckAnagram(newPhrase);
+        return;
       }
 
       //Over distinct letters or else it will end up with duplicate branches
@@ -81,14 +86,14 @@ namespace TrustPilotRabbitHole
         if (WordIsPossible(str + c)) {
           List<string> newPhrase = new List<string>(phrase);
           newPhrase[newPhrase.Count - 1] += c;
-          FindAnagram(newPhrase, newLetters);
+          FindAnagram(newPhrase, newLetters, guess);
         }
         if (FindWord(str)) { //current word in phrase is a word and should therefore be spaced
           List<string> newPhrase = new List<string>(phrase);
           string temp = newPhrase.Last();
           if (temp[0] < c) { //Prevents permutations of a phrase. If an anagram is found we will test its permutations
             newPhrase.Add("" + c);
-            FindAnagram(newPhrase, newLetters);
+            FindAnagram(newPhrase, newLetters, guess);
           }
         }
       }
