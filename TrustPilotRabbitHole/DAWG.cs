@@ -59,7 +59,7 @@ namespace TrustPilotRabbitHole
       return anagram;
     }
 
-    //Add assumed words to parameter
+
     public void FindAnagrams(string anagram, string guess)
     {
       List<char> inp = String.Concat(anagram.OrderBy(c => c)).ToList();

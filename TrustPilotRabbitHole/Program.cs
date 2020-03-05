@@ -22,7 +22,7 @@ namespace TrustPilotRabbitHole
       LetterFrequencyMatrix rankWords = new LetterFrequencyMatrix("newWords.txt", anagram);
       //DAWG dawg = new DAWG("testAnagrams.txt");
       //DAWG dawg = new DAWG("testAnagrams2.txt");
-      foreach (string guess in rankWords.newWords) {
+      foreach (string guess in rankWords.guessWords) {
         dawg.FindAnagrams(anagram, guess);
       }
       Console.WriteLine("Done");
