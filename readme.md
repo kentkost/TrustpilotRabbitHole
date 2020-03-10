@@ -4,6 +4,8 @@
 
 - Just run as if. It will download the wordlist from the web if it doesn't exist.
 - If it fails try downloading the wordlist and put in the same folder as the executable
+- All anagrams should be found within a minute
+
 
 ### How it works
 
