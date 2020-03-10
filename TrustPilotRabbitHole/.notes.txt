@@ -13,7 +13,7 @@
   The only special characters are ', 
 
 todo:
-  Make checking permutations and hashes a separate thread (low)
-  Generate unique permutations only (low)
+  Make checking permutations and hashes a separate thread (low). 
+    No point it is already stupid fast.
   When checking if word is part of anagram. Have the method return a Node instead.
-    and parse that to the method. So it doesn't check from root node everytime (low) 
+    and parse that to the method. So it doesn't check from root node everytime (low)

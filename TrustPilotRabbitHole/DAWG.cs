@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace TrustPilotRabbitHole
 {
   class DAWG
   {
     internal Node root;
-    //4624d200580677270a54ccff86b9610e = pastils turnout towy
+    private Dictionary<string, HashSet<string>> map = new Dictionary<string, HashSet<string>>();
+    private LetterFrequencyMatrix rankWords;
     public List<string> anagrams = new List<string>();
     public List<string> hashes = new List<string>() {
       "e4820b45d2277f3844eac66c903e84be",
@@ -19,26 +22,66 @@ namespace TrustPilotRabbitHole
       "665e5bcb0c20062fe8abaaf4628bb154"
     };
 
-    private Dictionary<string, HashSet<string>> map = new Dictionary<string, HashSet<string>>();
-
-    public DAWG(string path, Dictionary<string, HashSet<string>> m)
+    public DAWG(string path, string anagram)
     {
       root = new Node('\0', null);
-      map = m;
-      List<string> words = File.ReadAllLines(path).ToList();
+      if (!File.Exists(path)) {
+        Console.Write("Wordlist not found. Downloading it ");
+        try {
+          GetWordList(path);
+          Console.WriteLine("\u221A");
+        }
+        catch (Exception ex) {
+          Console.WriteLine("Download failed. Aborting!");
+          Console.WriteLine(ex.Message);
+        }
+      }
+
+      Console.Write("Excluding impossible words ");
+      string newWordsFileName = CreateNewWords(path, anagram);
+      Console.WriteLine("\u221A");
+      
+      Console.Write("Finding and ranking guesses ");
+      rankWords = new LetterFrequencyMatrix(newWordsFileName, anagram);
+      Console.WriteLine("\u221A");
+      
+      Console.Write("Create directed acyclic word graph ");
+      List<string> words = File.ReadAllLines(newWordsFileName).ToList();
       Create(words);
+      Console.WriteLine("\u221A");
+      
+      Console.WriteLine("Searching for anagrams: ");
+      Start(anagram);
+    }
+
+    private void Start(string anagram)
+    {
+      foreach (string guess in rankWords.guessWords) {
+        if (hashes.Count == 0) {
+          break;
+        }
+        this.FindAnagrams(anagram, guess);
+      }
+    }
+
+    private void GetWordList(string path)
+    {
+      string remoteUri = "https://followthewhiterabbit.trustpilot.com/cs/wordlist";
+      using (var client = new WebClient()) {
+        client.DownloadFile(remoteUri, path);
+      }
     }
 
     private void CheckAnagram(List<string> phrase) {
       List<List<string>> phrases = new List<List<string>>();
-      SwapWords(phrase, 0, phrases);
+      Combinations(phrase, 0, phrases);
       foreach (List<string> phr in phrases) {
         List<string> permsPhrase = Permutations(phr);
         foreach (string s in permsPhrase) {
           string hash = MD5hash(s);
           for (int i = 0; i < hashes.Count; i++) {
             if (hash == hashes[i]) {
-              Console.WriteLine(s + " : " + hash);
+              Console.WriteLine("\t"+s + " : " + hash);
               hashes.RemoveAt(i);
               break;
             }
@@ -47,7 +90,72 @@ namespace TrustPilotRabbitHole
       }
     }
 
-    public void SwapWords(List<string> sentence, int i, List<List<string>> results)
+    #region Clean Wordlist and create guesses
+    private string CreateNewWords(string path, string input)
+    {
+      string fileName = "newWords.txt";
+      using (StreamWriter outfile = new StreamWriter(fileName))
+      using (StreamReader file = new StreamReader(path)) {
+        string ln;
+        string prev = "";
+        string temp = "";
+
+        while ((ln = file.ReadLine()) != null) {
+          temp = NormalizeString(ln);
+          if (IsSubsetString(input, temp) && ln.Length > 1) {
+            if (!IdenticalStrings(ln, prev)) {
+              outfile.WriteLine(temp);
+              prev = ln;
+            }
+            else {
+              string normPrev = NormalizeString(prev);
+              if (!map.ContainsKey(normPrev)) {
+                map.Add(normPrev, new HashSet<string>());
+                map[normPrev].Add(prev);
+              }
+              map[normPrev].Add(ln);
+            }
+          }
+        }
+        file.Close();
+        outfile.Close();
+      }
+      return fileName;
+    }
+
+    private string NormalizeString(string str)
+    {
+      return Regex.Replace(str.Normalize(NormalizationForm.FormD), @"[^a-z]", "");
+    }
+
+    private bool IdenticalStrings(string str1, string str2)
+    {
+      str1 = Regex.Replace(str1.Normalize(NormalizationForm.FormD), @"[^a-z]", "");
+      str2 = Regex.Replace(str2.Normalize(NormalizationForm.FormD), @"[^a-z]", "");
+      return str2 == str1;
+    }
+
+    private bool IsSubsetString(string input, string compare)
+    {
+      //remove whitespace
+      input = Regex.Replace(input, @"\s+", "");
+      compare = Regex.Replace(compare, @"\s+", "");
+
+      List<char> inp = String.Concat(input.OrderBy(c => c)).ToList();
+
+      foreach (char c in compare) {
+        bool found = inp.Remove(c);
+        if (!found) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+    #endregion
+
+    #region Combinations of anagram
+    public void Combinations(List<string> sentence, int i, List<List<string>> results)
     {
       List<List<string>> combo = new List<List<string>>();
       if (i < sentence.Count && map.ContainsKey(sentence[i])) {
@@ -57,13 +165,14 @@ namespace TrustPilotRabbitHole
           combo.Add(temp);
         }
         foreach (List<string> ls in combo) {
-          SwapWords(new List<string>(ls), i + 1, results);
+          Combinations(new List<string>(ls), i + 1, results);
         }
       }
       else {
         results.Add(sentence);
       }
     }
+    #endregion
 
     public string MD5hash(string s)
     {
@@ -155,7 +264,18 @@ namespace TrustPilotRabbitHole
       }
     }
 
-    private List<string> Permutations(List<string> phrase)
+    #region Unique Permutations
+    private static bool ShouldSwap(List<string> phr, int start, int curr)
+    {
+      for (int i = start; i < curr; i++) {
+        if (phr[i] == phr[curr]) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    private static List<string> Permutations(List<string> phrase)
     {
       List<string> results = new List<string>();
       int n = phrase.Count;
@@ -163,16 +283,19 @@ namespace TrustPilotRabbitHole
       return results;
     }
 
-    private void Permute(List<string> phrase, int l, int r, ref List<string> results)
+    private static void Permute(List<string> phrase, int l, int r, ref List<string> results)
     {
       if (l == r) {
         results.Add(String.Join(" ", phrase.ToArray()));
       }
       else {
         for (int i = l; i <= r; i++) {
-          phrase = Swap(phrase, l, i);
-          Permute(phrase, l + 1, r, ref results);
-          phrase = Swap(phrase, l, i);
+          bool check = ShouldSwap(phrase, l, i);
+          if (check) {
+            phrase = Swap(phrase, l, i);
+            Permute(phrase, l + 1, r, ref results);
+            phrase = Swap(phrase, l, i);
+          }
         }
       }
     }
@@ -185,6 +308,7 @@ namespace TrustPilotRabbitHole
       words[j] = temp;
       return words;
     }
+    #endregion 
 
     private void Insert(string word)
     {

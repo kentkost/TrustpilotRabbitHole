@@ -12,12 +12,21 @@ namespace TrustPilotRabbitHoleTest
     {
       string workingDirectory = Environment.CurrentDirectory;
       string projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
-      dawg = new DAWG(Path.Combine(projectDirectory,"..","testdata","testWords.txt"));
+      dawg = new DAWG(Path.Combine(projectDirectory,"..","testdata","testWords.txt"), "airport airily");
     }
+
+    [Test]
+    public void TestFileExists()
+    {
+      string workingDirectory = Environment.CurrentDirectory;
+      string projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
+      Assert.IsTrue(File.Exists(Path.Combine(projectDirectory, "..", "testdata", "testWords.txt")));
+    }
+
     [Test]
     public void TestDawgPopulated()
     {
-      Assert.True(dawg.root.Children.Count > 0);
+      Assert.Greater(dawg.root.Children.Count, 0);
     }
 
     [Test]
