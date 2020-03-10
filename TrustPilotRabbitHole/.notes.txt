@@ -15,3 +15,5 @@
 todo:
   Make checking permutations and hashes a separate thread (low)
   Generate unique permutations only (low)
+  When checking if word is part of anagram. Have the method return a Node instead.
+    and parse that to the method. So it doesn't check from root node everytime (low) 
