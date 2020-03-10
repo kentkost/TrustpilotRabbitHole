@@ -11,6 +11,7 @@ namespace TrustPilotRabbitHole
   class DAWG
   {
     internal Node root;
+    //4624d200580677270a54ccff86b9610e = pastils turnout towy
     public List<string> anagrams = new List<string>();
     public List<string> hashes = new List<string>() {
       "e4820b45d2277f3844eac66c903e84be",
@@ -18,24 +19,49 @@ namespace TrustPilotRabbitHole
       "665e5bcb0c20062fe8abaaf4628bb154"
     };
 
-    public DAWG(string path)
+    private Dictionary<string, HashSet<string>> map = new Dictionary<string, HashSet<string>>();
+
+    public DAWG(string path, Dictionary<string, HashSet<string>> m)
     {
       root = new Node('\0', null);
+      map = m;
       List<string> words = File.ReadAllLines(path).ToList();
       Create(words);
     }
 
     private void CheckAnagram(List<string> phrase) {
-      List<string> permsPhrase = Permutations(phrase);
-      foreach (string s in permsPhrase) {
-        string hash = MD5hash(s);
-        for (int i = 0; i < hashes.Count; i++) {
-          if (hash == hashes[i]) {
-            Console.WriteLine(s+ " : "+hash);
-            hashes.RemoveAt(i);
-            break;
+      List<List<string>> phrases = new List<List<string>>();
+      SwapWords(phrase, 0, phrases);
+      foreach (List<string> phr in phrases) {
+        List<string> permsPhrase = Permutations(phr);
+        foreach (string s in permsPhrase) {
+          string hash = MD5hash(s);
+          for (int i = 0; i < hashes.Count; i++) {
+            if (hash == hashes[i]) {
+              Console.WriteLine(s + " : " + hash);
+              hashes.RemoveAt(i);
+              break;
+            }
           }
         }
+      }
+    }
+
+    public void SwapWords(List<string> sentence, int i, List<List<string>> results)
+    {
+      List<List<string>> combo = new List<List<string>>();
+      if (i < sentence.Count && map.ContainsKey(sentence[i])) {
+        foreach (string s in map[sentence[i]]) {
+          List<string> temp = new List<string>(sentence);
+          temp[i] = s;
+          combo.Add(temp);
+        }
+        foreach (List<string> ls in combo) {
+          SwapWords(new List<string>(ls), i + 1, results);
+        }
+      }
+      else {
+        results.Add(sentence);
       }
     }
 

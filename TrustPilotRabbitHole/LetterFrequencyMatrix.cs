@@ -23,18 +23,17 @@ namespace TrustPilotRabbitHole
       }
       ScoreWords(path);
 
-      wordsScored = wordsScored.OrderByDescending(x => x.Score).ToList();
+      wordsScored = wordsScored.OrderByDescending(x => x.Word.Length + x.Score).ToList();
 
       double tempScore = 0.0f;
       char letterLowestFreq='\0';
       foreach (KeyValuePair<char, LetterVector> kvp in letterFrequencies) {
-        Console.WriteLine(kvp.Key + " : " + kvp.Value.idf);
         if (kvp.Value.idf > tempScore) {
           tempScore = kvp.Value.idf;
           letterLowestFreq = kvp.Key;
         }
       }
-
+      int i = 0;
       foreach (WordScore ws in wordsScored) {
         if (ws.Score > tempScore){
           guessWords.Add(ws.Word);

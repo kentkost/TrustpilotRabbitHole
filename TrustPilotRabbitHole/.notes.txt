@@ -1,0 +1,17 @@
+﻿Traps?
+  One word has a capital Å(Ångstrom)
+   Possible watch out for accents and capital letters?
+   Ångstrom is not part of the anagram though.
+    Most likely TrustPilots word crawler at works. (after normalization) Only include that doesn't start with[A-Z](65->90) but Å is 197
+  
+  garlic and garlic's exists so does garments and garment's. Which means not all letters ending with 's has an equivalent 
+  word partner that just ends with s.
+    Important because hat means we can't ignore ' 
+    Important because we don't want to find anagrams for both words.
+    Just have hashset? and swap words when checking if anagram corresponds to hash?
+  
+  The only special characters are ', 
+
+todo:
+  Make checking permutations and hashes a separate thread (low)
+  Generate unique permutations only (low)
