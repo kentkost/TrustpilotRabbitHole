@@ -94,3 +94,5 @@ C:\Users\kent_\source\repos\TrustPilotRabbitHole\TrustPilotRabbitHoleTest\obj\De
 C:\Users\kent_\source\repos\TrustPilotRabbitHole\TrustPilotRabbitHoleTest\obj\Debug\netcoreapp3.1\TrustPilotRabbitHoleTest.csproj.CopyComplete
 C:\Users\kent_\source\repos\TrustPilotRabbitHole\TrustPilotRabbitHoleTest\obj\Debug\netcoreapp3.1\TrustPilotRabbitHoleTest.dll
 C:\Users\kent_\source\repos\TrustPilotRabbitHole\TrustPilotRabbitHoleTest\obj\Debug\netcoreapp3.1\TrustPilotRabbitHoleTest.pdb
+C:\Users\kent_\source\repos\TrustPilotRabbitHole\TrustPilotRabbitHoleTest\obj\Debug\netcoreapp3.1\TrustPilotRabbitHoleTest.csproj.CoreCompileInputs.cache
+C:\Users\kent_\source\repos\TrustPilotRabbitHole\TrustPilotRabbitHoleTest\obj\Debug\netcoreapp3.1\TrustPilotRabbitHoleTest.genruntimeconfig.cache

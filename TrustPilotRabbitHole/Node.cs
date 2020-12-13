@@ -12,6 +12,7 @@ namespace TrustPilotRabbitHole
     private bool _isWord;
     private Node _parent;
     private List<Node> _children;
+    private Node n;
 
     public char Value { get => _value; }
     public bool IsWord { get => _isWord; set => _isWord = value; }

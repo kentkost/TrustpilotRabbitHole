@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace TrustPilotRabbitHole
 {
@@ -21,6 +21,10 @@ namespace TrustPilotRabbitHole
       "23170acc097c24edb98fc5488ab033fe",
       "665e5bcb0c20062fe8abaaf4628bb154"
     };
+    private DateTime then;
+
+    //delete later
+    static int numOfThreads = 3;
 
     public DAWG(string path, string anagram)
     {
@@ -51,7 +55,23 @@ namespace TrustPilotRabbitHole
       Console.WriteLine("\u221A");
       
       Console.WriteLine("Searching for anagrams: ");
-      Start(anagram);
+      then = DateTime.Now;
+      //Start(anagram);
+      ThreadedStart(anagram);
+    }
+
+    private void ThreadedStart(string anagram)
+    {
+
+      for (int i = 0; i < numOfThreads; i++) {
+        ThreadStart ts = delegate {
+        
+        };
+        Thread t = new Thread(ts);
+        t.Name = "Thread " + i;
+        t.Start();
+      }
+      
     }
 
     private void Start(string anagram)
@@ -75,12 +95,17 @@ namespace TrustPilotRabbitHole
     private void CheckAnagram(List<string> phrase) {
       List<List<string>> phrases = new List<List<string>>();
       Combinations(phrase, 0, phrases);
+
       foreach (List<string> phr in phrases) {
         List<string> permsPhrase = Permutations(phr);
+
         foreach (string s in permsPhrase) {
           string hash = MD5hash(s);
+
           for (int i = 0; i < hashes.Count; i++) {
             if (hash == hashes[i]) {
+              var diffInSeconds = (DateTime.Now - then).TotalSeconds;
+              Console.Write(diffInSeconds);
               Console.WriteLine("\t"+s + " : " + hash);
               hashes.RemoveAt(i);
               break;
@@ -130,8 +155,8 @@ namespace TrustPilotRabbitHole
 
     private bool IdenticalStrings(string str1, string str2)
     {
-      str1 = Regex.Replace(str1.Normalize(NormalizationForm.FormD), @"[^a-z]", "");
-      str2 = Regex.Replace(str2.Normalize(NormalizationForm.FormD), @"[^a-z]", "");
+      str1 = NormalizeString(str1);
+      str2 = NormalizeString(str2);
       return str2 == str1;
     }
 
@@ -159,14 +184,17 @@ namespace TrustPilotRabbitHole
     {
       List<List<string>> combo = new List<List<string>>();
       if (i < sentence.Count && map.ContainsKey(sentence[i])) {
+
         foreach (string s in map[sentence[i]]) {
           List<string> temp = new List<string>(sentence);
           temp[i] = s;
           combo.Add(temp);
         }
+
         foreach (List<string> ls in combo) {
           Combinations(new List<string>(ls), i + 1, results);
         }
+
       }
       else {
         results.Add(sentence);
@@ -194,6 +222,13 @@ namespace TrustPilotRabbitHole
       return anagram;
     }
 
+    public void FindAnagramsThreaded(List<string> phrase,string anagram, string guess)
+    {
+      List<char> inp = String.Concat(anagram.OrderBy(c => c)).ToList();
+      inp.RemoveAll(item => item == ' ');
+      inp = SubtractLetters(inp, guess);
+      FindAnagram(new List<string>() { "" }, inp, guess);
+    }
 
     public void FindAnagrams(string anagram, string guess)
     {
@@ -223,16 +258,18 @@ namespace TrustPilotRabbitHole
           newPhrase[newPhrase.Count - 1] += c;
           FindAnagram(newPhrase, newLetters, guess);
         }
+
         if (FindWord(str)) { //current word in phrase is a word and should therefore be spaced
           List<string> newPhrase = new List<string>(phrase);
           string temp = newPhrase.Last();
-          if (temp[0] < c) { //Prevents permutations of a phrase. If an anagram is found we will test its permutations
+          if (temp[0] < c) { //Prevents permutations of a phrase. If an anagram is found we will find its permutations
             newPhrase.Add("" + c);
             FindAnagram(newPhrase, newLetters, guess);
           }
         }
       }
     }
+
 
     public bool WordIsPossible(string word)
     {
@@ -323,7 +360,8 @@ namespace TrustPilotRabbitHole
         else{
           current = child;
         }
-        
+
+        //Statement inside is only ever executed once
         if (!current.IsWord){
           current.IsWord = (i == word.Length - 1);
         }

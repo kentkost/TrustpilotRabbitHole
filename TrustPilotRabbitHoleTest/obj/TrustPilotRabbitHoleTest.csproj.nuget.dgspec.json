@@ -75,12 +75,11 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
     "C:\\Users\\kent_\\source\\repos\\TrustPilotRabbitHole\\TrustPilotRabbitHole\\TrustPilotRabbitHole.csproj": {
-      "version": "1.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\kent_\\source\\repos\\TrustPilotRabbitHole\\TrustPilotRabbitHole\\TrustPilotRabbitHole.csproj",
         "projectName": "TrustPilotRabbitHole",
