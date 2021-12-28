@@ -27,7 +27,7 @@ namespace TrustPilotRabbitHole
         private DateTime then;
 
         //delete later
-        static int numOfThreads = 3;
+        static int numOfThreads = 4;
 
         public DAWG(string path, string anagram)
         {

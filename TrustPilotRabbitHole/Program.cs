@@ -9,15 +9,15 @@ using System.Net;
 
 namespace TrustPilotRabbitHole
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      string anagram = "poultry outwits ants";
-      DAWG dawg = new DAWG("wordlist", anagram);
+        static void Main(string[] args)
+        {
+            string anagram = "poultry outwits ants";
+            DAWG dawg = new DAWG("wordlist", anagram);
 
-      Console.WriteLine("Program exited successfully");
-      Console.ReadKey();
+            Console.WriteLine("Program exited successfully");
+            Console.ReadKey();
+        }
     }
-  }
 }
