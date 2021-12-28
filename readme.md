@@ -33,7 +33,7 @@ Once an anagram has been found. The program will create all possible ways to rea
 ### How fast is it?
 
 With an i5-7500. I usually get the first two hashes within 3 seconds. The last hash is around 15 seconds.
-However when using multithreading the time is more than halved.
+However when using multithreading the time is more than halved. (Oh yeah. Checkout the Multithreading branch)
 
 ### Extra
 
