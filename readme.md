@@ -1,5 +1,14 @@
 # TrustPilot Rabbit Hole Challenge
 
+
+### Before running
+
+Please don't use this as a an attempt to get a job at Trustpilot. 
+I just thought I'd sahre my solution after having kept it private for some years 
+and it doesn't seem like they hire based on this challenge anymore. So don't waste 
+their and your own time trying something so foolish.
+
+
 ### How to run it
 
 - Just run as if. It will download the wordlist from the web if it doesn't exist.
@@ -20,6 +29,11 @@ It will then search for anagrams by continously constructing words using the let
 The words must be alphabetically ordered since it reduced a lot of double work for the program. Since we don't want to check if a sequence of words is anagram for a sequences that contain the same words.
 
 Once an anagram has been found. The program will create all possible ways to rearrange the words in the anagram to create possible anagrams for that sequence of words. 
+
+### How fast is it?
+
+With an i5-7500. I usually get the first two hashes within 3 seconds. The last hash is around 15 seconds.
+However when using multithreading the time is more than halved.
 
 ### Extra
 

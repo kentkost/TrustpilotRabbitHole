@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kent_\\Temp\\trustpilotrabbithole\\TrustPilotRabbitHoleTest\\TrustPilotRabbitHoleTest.csproj": {}
+    "C:\\Users\\kent_\\Temp\\delete\\TrustpilotRabbitHole\\TrustPilotRabbitHoleTest\\TrustPilotRabbitHoleTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kent_\\Temp\\trustpilotrabbithole\\TrustPilotRabbitHoleTest\\TrustPilotRabbitHoleTest.csproj": {
+    "C:\\Users\\kent_\\Temp\\delete\\TrustpilotRabbitHole\\TrustPilotRabbitHoleTest\\TrustPilotRabbitHoleTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kent_\\Temp\\trustpilotrabbithole\\TrustPilotRabbitHoleTest\\TrustPilotRabbitHoleTest.csproj",
+        "projectUniqueName": "C:\\Users\\kent_\\Temp\\delete\\TrustpilotRabbitHole\\TrustPilotRabbitHoleTest\\TrustPilotRabbitHoleTest.csproj",
         "projectName": "TrustPilotRabbitHoleTest",
-        "projectPath": "C:\\Users\\kent_\\Temp\\trustpilotrabbithole\\TrustPilotRabbitHoleTest\\TrustPilotRabbitHoleTest.csproj",
+        "projectPath": "C:\\Users\\kent_\\Temp\\delete\\TrustpilotRabbitHole\\TrustPilotRabbitHoleTest\\TrustPilotRabbitHoleTest.csproj",
         "packagesPath": "C:\\Users\\kent_\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kent_\\Temp\\trustpilotrabbithole\\TrustPilotRabbitHoleTest\\obj\\",
+        "outputPath": "C:\\Users\\kent_\\Temp\\delete\\TrustpilotRabbitHole\\TrustPilotRabbitHoleTest\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
           "C:\\Users\\kent_\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -30,9 +30,10 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\kent_\\Temp\\trustpilotrabbithole\\TrustPilotRabbitHole\\TrustPilotRabbitHole.csproj": {
-                "projectPath": "C:\\Users\\kent_\\Temp\\trustpilotrabbithole\\TrustPilotRabbitHole\\TrustPilotRabbitHole.csproj"
+              "C:\\Users\\kent_\\Temp\\delete\\TrustpilotRabbitHole\\TrustPilotRabbitHole\\TrustPilotRabbitHole.csproj": {
+                "projectPath": "C:\\Users\\kent_\\Temp\\delete\\TrustpilotRabbitHole\\TrustPilotRabbitHole\\TrustPilotRabbitHole.csproj"
               }
             }
           }
@@ -45,6 +46,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
@@ -74,15 +76,20 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\kent_\\Temp\\trustpilotrabbithole\\TrustPilotRabbitHole\\TrustPilotRabbitHole.csproj": {
+    "C:\\Users\\kent_\\Temp\\delete\\TrustpilotRabbitHole\\TrustPilotRabbitHole\\TrustPilotRabbitHole.csproj": {
       "restore": {
-        "projectUniqueName": "C:\\Users\\kent_\\Temp\\trustpilotrabbithole\\TrustPilotRabbitHole\\TrustPilotRabbitHole.csproj",
+        "projectUniqueName": "C:\\Users\\kent_\\Temp\\delete\\TrustpilotRabbitHole\\TrustPilotRabbitHole\\TrustPilotRabbitHole.csproj",
         "projectName": "TrustPilotRabbitHole",
-        "projectPath": "C:\\Users\\kent_\\Temp\\trustpilotrabbithole\\TrustPilotRabbitHole\\TrustPilotRabbitHole.csproj"
+        "projectPath": "C:\\Users\\kent_\\Temp\\delete\\TrustpilotRabbitHole\\TrustPilotRabbitHole\\TrustPilotRabbitHole.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
       },
       "frameworks": {
         "net472": {}
