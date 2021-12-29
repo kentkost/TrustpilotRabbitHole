@@ -17,3 +17,17 @@ todo:
     No point it is already stupid fast.
   When checking if word is part of anagram. Have the method return a Node instead.
     and parse that to the method. So it doesn't check from root node everytime (low)
+
+
+Rethink strategy:
+   - What if instead of trying all combinations after a guess. I just make a second guess based on the remaining letters?
+   - Then I could run it as a recursive guessing.
+     - Guess one word.
+     - Filter wordlist -> LetterFrequency Matrix -> rank Words
+     - Make second guess.
+     - If filtered wordlist is empty but there are still letters then.
+       => add Remaining letters as a string to a dictionary saying this wont result in a anagram
+       => return false saying or same string. Same string means it couldn't find a new guess word.
+     - Proceed to next guessword.
+     - Can still keep combinations and permutations.
+   - I think this can actually be faster. Since I save alot of traversal. Creating a DAWG everytime shouldn't be so bad.
