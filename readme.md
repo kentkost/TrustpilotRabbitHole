@@ -1,4 +1,4 @@
-# TrustPilot Rabbit Hole Challenge
+# Trustpilot Rabbit Hole Challenge
 
 
 ### Before running
